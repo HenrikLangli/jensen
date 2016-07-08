@@ -7,7 +7,7 @@ public class DefaultInstanceLocator implements InstanceLocator {
     private Map<Class<?>, Object> instances = new HashMap<Class<?>, Object>();
 
     @Override
-    public Object findInstance(Class<?> clazz) throws InstantiationException, IllegalAccessException {
+    public Object getInstance(Class<?> clazz) throws InstantiationException, IllegalAccessException {
         Object instance = instances.get(clazz);
         if(instance == null) {
             instance = clazz.newInstance();

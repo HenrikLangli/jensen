@@ -197,7 +197,7 @@ public class Jensen {
     private Object getInstance(Class<?> clazz, Request request) throws JsonRpcException {
         Object instance = null;
         try {
-            instance = instanceLocator.findInstance(clazz);
+            instance = instanceLocator.getInstance(clazz);
         }
         catch(InstantiationException e) {
             String message = "Class " + clazz.getSimpleName() + " cannot be instantiated with a no-args constructor";
