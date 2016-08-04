@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dk.langli</groupId>
 	<artifactId>jensen</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.5</version>
 	<packaging>jar</packaging>
 	<name>Jensen JSON-RPC Java Bridge</name>
 	<developers>
@@ -69,6 +69,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${org.slf4j.slf4j-log4j12.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

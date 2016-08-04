@@ -17,6 +17,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import dk.langli.jensen.DefaultPrettyPrinter;
 import dk.langli.jensen.DefaultSecurityFilter;
+import dk.langli.jensen.DefaultSecurityFilter.MatchType;
 import dk.langli.jensen.Jensen;
 import dk.langli.jensen.JensenBuilder;
 import dk.langli.jensen.JsonRpcException;
@@ -89,11 +90,11 @@ public class JensenTest {
 	@Test
 	public void testPackagesAreDenied() {
 		Jensen jensen = newJensenBuilder()
-			.withSecurityFilter(new DefaultSecurityFilter(Arrays.asList("dk.langli.jensen.test")))
+			.withSecurityFilter(new DefaultSecurityFilter(MatchType.STARTS_WITH, Arrays.asList("dk.langli.jensen.test")))
 			.build();
 		String jsonRequest = getResource("javalang.json");
 		String response = jensen.invoke(jsonRequest);
-		Assert.assertTrue("Expected IllegalArgumentException", response.contains("java.lang.IllegalArgumentException"));
+		Assert.assertTrue("Expected SecurityException", response.contains("java.lang.SecurityException"));
 	}
 	
 	private JensenBuilder newJensenBuilder() {

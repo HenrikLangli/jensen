@@ -84,7 +84,8 @@ public class Jensen {
                 if(request.getJsonrpc().equals(JSONRPC)) {
                     MethodCall methodCall = getMethodCall(request);
                     if(securityFilter != null && !securityFilter.isAllowed(methodCall, request)) {
-                        throw new IllegalArgumentException(String.format("Invocation of %s not allowed", request.getMethod()));
+                        String message = String.format("Invocation of %s not allowed", request.getMethod());
+                        throw new JsonRpcException(JsonRpcError.INVALID_REQUEST.toError(new SecurityException(message), request));
                     }
                     else {
                         Object result = invoke(methodCall, request);
@@ -246,8 +247,10 @@ public class Jensen {
                     log.trace("Check method parameter compatibility: " + method.getName() + "(" + toString(method.getParameterTypes()) + ")");
                     try {
                         List<Object> params = deserializeParameterList(requestParams, method.getParameterTypes());
-                        log.trace(method.getName() + "(" + toString(method.getParameterTypes()) + ") is compatible with the parameter list");
-                        methodCall = new MethodCall(method, params);
+                        if(params.size() == requestParams.size()) {
+                            log.trace(method.getName() + "(" + toString(method.getParameterTypes()) + ") is compatible with the parameter list");
+                            methodCall = new MethodCall(method, params);
+                        }
                     }
                     catch(Throwable e) {
                         log.error(method.getName() + "() does not match");
